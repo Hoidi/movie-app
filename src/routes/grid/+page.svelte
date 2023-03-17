@@ -1,10 +1,13 @@
 <script lang="ts">
     import MovieLayout from '../../movies/MovieLayout.svelte';
     import { movieStore } from '../../store/movies';
-    import type { PageServerData } from './$types';
+    import type { PageData } from './$types';
 
-    export let data: PageServerData;
-    movieStore.setFromPromiseList(data.myMoviesFetch);
+    export let data: PageData;
+
+    if (data.response) {
+        movieStore.upsertFromList(data.response);
+    }
 </script>
 
 <h1>Grid of movies</h1>

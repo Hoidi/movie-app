@@ -15,21 +15,18 @@ function createMovies() {
         upsert: (movie: Movie) => {
             update((record) => ({ ...record, [movie.id]: movie }));
         },
-        setFromList: (movies: Movie[]) => {
+        upsertFromList: (movies: (Movie | undefined)[]) => {
             const record: MovieIdMap = {};
 
-            movies.forEach((movie) => (record[movie.id] = movie));
+            movies.forEach((movie) => {
+                if (movie) {
+                    record[movie.id] = movie;
+                }
+            });
 
-            set(
-                movies.reduce(
-                    (record, movie) => ({ ...record, [movie.id]: movie }),
-                    {}
-                )
-            );
+            set(record);
         },
-        setFromPromiseList: async (
-            movieTypePromises: Promise<Movie | undefined>[]
-        ) => {
+        upsertFromPromiseList: async (movieTypePromises: Promise<Movie>[]) => {
             const movies = await Promise.all(movieTypePromises);
 
             const record: MovieIdMap = {};
