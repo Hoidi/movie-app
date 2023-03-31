@@ -6,6 +6,7 @@ export type Movie = {
     releaseYear: number;
     posterPath: string;
     voteAverage: number;
+    genres: string[];
     cast: Person[];
     crew: Person[];
 };
@@ -15,7 +16,8 @@ export function NewMovie(
     title: string,
     releaseYear: number,
     posterPath: string,
-    voteAverage: number
+    voteAverage: number,
+    genres: string[]
 ): Movie {
     return {
         id: id,
@@ -23,6 +25,7 @@ export function NewMovie(
         releaseYear: releaseYear,
         posterPath: posterPath,
         voteAverage: voteAverage,
+        genres: genres,
         cast: [],
         crew: [],
     };
