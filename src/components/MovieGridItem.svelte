@@ -12,6 +12,7 @@
     function setBlur(_: Event) {
         posterBlur = true;
     }
+
     function unsetBlur(_: Event) {
         posterBlur = false;
     }

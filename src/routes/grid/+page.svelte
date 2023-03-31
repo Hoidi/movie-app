@@ -1,7 +1,7 @@
 <script lang="ts">
     import { Alert } from 'flowbite-svelte';
-    import MovieLayout from '../../movies/MovieLayout.svelte';
-    import MovieList from '../../movies/MovieList.svelte';
+    import MovieGrid from '../../components/MovieGrid.svelte';
+    import MovieList from '../../components/MovieList.svelte';
     import { movieStore } from '../../store/movies';
     import type { PageData } from './$types';
 
@@ -14,8 +14,6 @@
     }
 </script>
 
-<h1>Grid of movies</h1>
-
 {#if Object.keys(movieStorage).length == 0}
     <div style="margin-top: 50px;">
         <Alert color="yellow">
@@ -23,11 +21,7 @@
             diary <a href="/upload">here</a> and try again.
         </Alert>
     </div>
-    ho
 {:else}
-    <MovieLayout layout="grid" />
-    hi
+    <MovieGrid layout="grid" />
     <MovieList />
 {/if}
-
-hello
