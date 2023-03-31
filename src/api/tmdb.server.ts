@@ -1,5 +1,5 @@
-import TMDB, { type MovieDetails } from 'tmdb-ts';
 import { SECRET_TMDB_ACCESS_TOKEN } from '$env/static/private';
+import TMDB, { type MovieDetails } from 'tmdb-ts';
 
 const tmdb = new TMDB(SECRET_TMDB_ACCESS_TOKEN);
 

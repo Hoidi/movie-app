@@ -1,11 +1,11 @@
 <script lang="ts">
-    import Poster from "./Poster.svelte";
-    import Score from "./Score.svelte";
     import { fade } from 'svelte/transition';
+    import Poster from './Poster.svelte';
+    import Score from './Score.svelte';
 
-    export let title : string;
-    export let voteAverage: number = 0;
-    export let posterPath: string = 'https://www.themoviedb.org/t/p/w1280/wjOHjWCUE0YzDiEzKv8AfqHj3ir.jpg';
+    export let title: string;
+    export let voteAverage: number;
+    export let posterPath: string;
 
     let posterBlur = false;
 
@@ -17,34 +17,29 @@
     }
 
     const height = 225;
-    $: width = height*(2/3);
+    $: width = height * (2 / 3);
 </script>
 
-<div 
-    class="frame" 
-    on:mouseenter={setBlur} 
-    on:mouseleave={unsetBlur}>
-    <div 
-        class="poster"
-        class:posterBlur
-        transition:fade
-        >
-        <Poster posterPath={posterPath}/> 
+<div class="frame" on:mouseenter={setBlur} on:mouseleave={unsetBlur}>
+    <div class="poster" class:posterBlur transition:fade>
+        <Poster {posterPath} />
     </div>
     {#if posterBlur}
-        <div class="posterContents title">
-            {title}
-        </div>
-        <div class="posterContents score">
-            <Score score={voteAverage}/>
+        <div class="posterContentsContainer">
+            <div class="posterContents title">
+                {title}
+            </div>
+            <div class="posterContents score">
+                <Score score={voteAverage} />
+            </div>
         </div>
     {/if}
 </div>
 
 <style>
     .frame {
-        height: 225px;
         width: 150px;
+        aspect-ratio: 3/2;
         box-shadow: 0px 0px 8px 3px;
         border-style: solid;
         border-radius: 5px;

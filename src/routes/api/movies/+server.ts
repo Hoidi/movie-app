@@ -24,7 +24,7 @@ export const POST = (async ({ request }) => {
                             Number(movieDetails.release_date.slice(0, 4)),
                             movieDetails.poster_path,
                             movieDetails.vote_average,
-                            movieDetails.genres.map(g => g.name)
+                            movieDetails.genres.map((g) => g.name)
                         );
                     }
                 }

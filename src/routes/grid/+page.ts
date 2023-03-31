@@ -21,7 +21,7 @@ export const load = (async ({ fetch }) => {
     }));
 
     const body = {
-        movies: searchItems.slice(0, 10),
+        movies: searchItems.slice(0, 30),
     };
 
     const searchResults: Promise<Movie[]> = fetch('/api/movies', {

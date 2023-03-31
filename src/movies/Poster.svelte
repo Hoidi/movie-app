@@ -1,5 +1,5 @@
 <script lang="ts">
-    export let posterPath: string
+    export let posterPath: string;
 </script>
 
 <img
