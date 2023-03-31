@@ -1,8 +1,9 @@
 <script lang="ts">
-    import { diaryStore } from '../store/diary';
-    import { type Files, filedrop } from 'filedrop-svelte';
-    import { unzip } from 'unzipit';
+    import { filedrop, type Files } from 'filedrop-svelte';
+    import { Button } from 'flowbite-svelte';
     import { parse } from 'papaparse';
+    import { unzip } from 'unzipit';
+    import { diaryStore } from '../store/diary';
     import type { DiaryEntry } from '../types/diary';
 
     let files: Files;
@@ -94,8 +95,8 @@
     <ul>
         {#each files.accepted as file, i}
             <li>
-                {i}{file.name} -
-                <button on:click={(_) => readFile(i)}>Read file</button>
+                {file.name} -
+                <Button on:click={(_) => readFile(i)}>Read file</Button>
             </li>
         {/each}
     </ul>
