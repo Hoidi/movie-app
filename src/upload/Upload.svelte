@@ -33,7 +33,7 @@
         );
     });
 
-    async function readFile(index: number) {
+    const readFileIntoStores = async (index: number) => {
         let f = files.accepted[index];
 
         if (f.type === 'application/x-zip-compressed') {
@@ -49,9 +49,9 @@
                 diaryStore.set(diary);
             }
         }
-    }
+    };
 
-    async function readZipIntoDiary(url: ArrayBuffer) {
+    const readZipIntoDiary = async (url: ArrayBuffer) => {
         if (url == undefined) {
             return;
         }
@@ -59,9 +59,9 @@
         const { entries } = await unzip(url);
 
         return await readCsv(await entries['diary.csv'].text());
-    }
+    };
 
-    async function readCsv(content: string): Promise<DiaryEntry[]> {
+    const readCsv = async (content: string): Promise<DiaryEntry[]> => {
         // parse data with last newline removed to avoid error
         const { data, errors, _ } = await parse(content.slice(0, -1), {
             header: true,
@@ -89,16 +89,16 @@
         }
 
         return diary;
-    }
+    };
 
-    function toDate(date: string): Date {
+    const toDate = (date: string): Date => {
         var parts = date.split('-');
         return new Date(
             Number(parts[2]),
             Number(parts[1]) - 1,
             Number(parts[0])
         );
-    }
+    };
 
     const filterMovieBasedOnAlreadyFetchedMovies = (
         diary: DiaryEntry[]
@@ -174,7 +174,9 @@
         {#each files.accepted as file, i}
             <li>
                 {file.name} -
-                <Button on:click={(_) => readFile(i)}>Read file</Button>
+                <Button on:click={(_) => readFileIntoStores(i)}
+                    >Read file</Button
+                >
             </li>
         {/each}
     </ul>
