@@ -1,5 +1,5 @@
-import type { DiaryEntry } from '../types/diary';
 import { persisted } from 'svelte-local-storage-store';
+import type { DiaryEntry } from '../types/diary';
 
 const initial: DiaryEntry[] = [];
 
@@ -12,7 +12,7 @@ function createDiary() {
         subscribe,
         set,
         reset: () => {
-            set([]);
+            set(initial);
         },
     };
 }

@@ -15,7 +15,7 @@ function createMovies() {
         upsert: (movie: Movie) => {
             update((record) => ({ ...record, [movie.id]: movie }));
         },
-        upsertFromList: (movies: (Movie | undefined)[]) => {
+        upsertList: (movies: Movie[]) => {
             const record: MovieIdMap = {};
 
             movies.forEach((movie) => {
