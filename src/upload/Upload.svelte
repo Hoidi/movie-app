@@ -12,12 +12,6 @@
     let files: Files;
     let options = {};
 
-    let diary: DiaryEntry[] = [];
-
-    diaryStore.subscribe((storedDiary) => {
-        diary = storedDiary;
-    });
-
     const movies: Set<SearchItem> = new Set();
 
     movieStore.subscribe((storedMovies) => {
