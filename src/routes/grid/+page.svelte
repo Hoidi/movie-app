@@ -22,6 +22,7 @@
         </Alert>
     </div>
 {:else}
-    <MovieGrid layout="grid" />
     <MovieList />
+
+    <MovieGrid />
 {/if}
