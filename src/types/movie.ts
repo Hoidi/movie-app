@@ -1,3 +1,5 @@
+import type { DiaryEntry } from './diary';
+
 export type Movie = {
     id: number;
     title: string;
@@ -5,6 +7,7 @@ export type Movie = {
     posterPath: string;
     voteAverage: number;
     genres: string[];
+    diaryEntries: DiaryEntry[];
     cast: number[];
     crew: number[];
 };
@@ -15,7 +18,8 @@ export function NewMovie(
     releaseYear: number,
     posterPath: string,
     voteAverage: number,
-    genres: string[]
+    genres: string[],
+    diaryEntries: DiaryEntry[]
 ): Movie {
     return {
         id: id,
@@ -24,6 +28,7 @@ export function NewMovie(
         posterPath: posterPath,
         voteAverage: voteAverage,
         genres: genres,
+        diaryEntries: diaryEntries,
         cast: [],
         crew: [],
     };

@@ -21,12 +21,7 @@
 
         movies.clear();
 
-        movieList.forEach((movie) =>
-            movies.add({
-                title: movie.title,
-                releaseYear: movie.releaseYear,
-            })
-        );
+        movieList.forEach((movie) => movies.add({ ...movie }));
     });
 
     const readFileIntoStores = async (index: number) => {
@@ -35,7 +30,7 @@
         if (f.type === 'application/x-zip-compressed') {
             const diary = await readZipIntoDiary(await f.arrayBuffer());
 
-            if (diary != undefined) {
+            if (diary) {
                 const searchItems =
                     filterMoviesBasedOnAlreadyFetchedMovies(diary);
 
@@ -112,6 +107,8 @@
         const searchItems: SearchMovieQueryBody = [];
 
         diary.forEach((diaryEntry) => {
+            const diaryEntries: DiaryEntry[] = [];
+
             const searchItem: SearchMovie = {
                 title: diaryEntry.title,
                 releaseYear: diaryEntry.releaseYear,
