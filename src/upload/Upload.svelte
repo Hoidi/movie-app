@@ -3,16 +3,18 @@
     import { Button } from 'flowbite-svelte';
     import { parse } from 'papaparse';
     import { unzip } from 'unzipit';
-    import type { SearchItem } from '../routes/api/movies/+server';
+    import { searchMovies } from '../apiTwo/movies';
+    import { fetchPeople } from '../apiTwo/people';
+    import type { SearchMovieItem } from '../routes/api/movies/+server';
     import { diaryStore } from '../store/diary';
     import { movieStore } from '../store/movies';
+    import { personStore } from '../store/people';
     import type { DiaryEntry } from '../types/diary';
-    import type { Movie } from '../types/movie';
 
     let files: Files;
     let options = {};
 
-    const movies: Set<SearchItem> = new Set();
+    const movies: Set<SearchMovieItem> = new Set();
 
     movieStore.subscribe((storedMovies) => {
         let movieList = Object.values(storedMovies);
@@ -34,13 +36,23 @@
             const diary = await readZipIntoDiary(await f.arrayBuffer());
 
             if (diary != undefined) {
-                const searchItems: SearchItem[] =
-                    filterMovieBasedOnAlreadyFetchedMovies(diary);
+                const searchItems =
+                    filterMoviesBasedOnAlreadyFetchedMovies(diary);
 
-                const searchResults = await searchMovies(searchItems);
+                const movieSearchResults = await searchMovies(searchItems);
 
-                movieStore.upsertList(searchResults);
+                if (!movieSearchResults) {
+                    return;
+                }
+
+                movieStore.upsertList(movieSearchResults);
                 diaryStore.set(diary);
+
+                const peopleResults = await fetchPeople(
+                    movieSearchResults.map((movie) => ({ movieId: movie.id }))
+                );
+
+                personStore.setFromList(peopleResults);
             }
         }
     };
@@ -94,13 +106,13 @@
         );
     };
 
-    const filterMovieBasedOnAlreadyFetchedMovies = (
+    const filterMoviesBasedOnAlreadyFetchedMovies = (
         diary: DiaryEntry[]
-    ): SearchItem[] => {
-        const searchItems: SearchItem[] = [];
+    ): SearchMovieItem[] => {
+        const searchItems: SearchMovieItem[] = [];
 
         diary.forEach((diaryEntry) => {
-            const searchItem: SearchItem = {
+            const searchItem: SearchMovieItem = {
                 title: diaryEntry.title,
                 releaseYear: diaryEntry.releaseYear,
             };
@@ -111,33 +123,6 @@
         });
 
         return searchItems.slice(0, 30);
-    };
-
-    const searchMovies = async (
-        searchItems: SearchItem[]
-    ): Promise<Movie[]> => {
-        if (searchItems.length === 0) {
-            console.log('no need to fetch movies');
-            return Promise.resolve([]);
-        }
-
-        const body = {
-            movies: searchItems.slice(0, 30),
-        };
-
-        return fetch('/api/movies', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(body),
-        })
-            .then((response) => {
-                return response.json();
-            })
-            .then((json) => {
-                return json.searchResults;
-            });
     };
 </script>
 
