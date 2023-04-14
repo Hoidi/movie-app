@@ -1,8 +1,9 @@
+import type { Job } from './job';
 export type Person = {
     id: number;
     name: string;
     gender: 'female' | 'male' | 'other';
-    roles: Map<number, string>;
+    jobs: Job[];
     placeOfBirth?: string;
     dateOfBirth?: Date;
 };
@@ -11,6 +12,7 @@ export function newPerson(
     id: number,
     name: string,
     gender: 'female' | 'male' | 'other',
+    jobs: Job[],
     placeOfBirth?: string,
     dateOfBirth?: Date
 ): Person {
@@ -18,7 +20,7 @@ export function newPerson(
         id: id,
         name: name,
         gender: gender,
-        roles: new Map(),
+        jobs: jobs,
         placeOfBirth: placeOfBirth,
         dateOfBirth: dateOfBirth,
     };
