@@ -2,6 +2,7 @@ import { error, json } from '@sveltejs/kit';
 import { searchMovie } from '../../../api/tmdb.server';
 import {
     NewMovie,
+    type Movie,
     type SearchMovie,
     type SearchMovieQueryBody,
 } from '../../../types';
@@ -35,7 +36,9 @@ const verifyInput = (searchItem: SearchMovie) => {
     }
 };
 
-const searchItemToMovie = async (searchItem: SearchMovie) => {
+const searchItemToMovie = async (
+    searchItem: SearchMovie
+): Promise<Movie | undefined> => {
     return searchMovie(searchItem.title, searchItem.releaseYear).then(
         (movieDetails) => {
             if (movieDetails) {

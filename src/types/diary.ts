@@ -4,7 +4,7 @@ export type DiaryEntry = {
 };
 
 export type WatchMoment = {
-    dateAdded: string;
+    dateAdded: Date;
     rewatch: boolean;
     watchedDate: Date;
 };

@@ -4,7 +4,7 @@ import type { DiaryEntry } from './diary';
 export type SearchMovie = {
     title: string;
     releaseYear: number;
-    diaryEntries: DiaryEntry[];
+    diaryEntries: DiaryEntry;
 };
 
 export type SearchMovieQueryBody = SearchMovie[];

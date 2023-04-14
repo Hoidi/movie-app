@@ -7,7 +7,7 @@ export type Movie = {
     posterPath: string;
     voteAverage: number;
     genres: string[];
-    diaryEntries: DiaryEntry[];
+    diaryEntries: DiaryEntry;
     cast: number[];
     crew: number[];
 };
@@ -19,7 +19,7 @@ export function NewMovie(
     posterPath: string,
     voteAverage: number,
     genres: string[],
-    diaryEntries: DiaryEntry[]
+    diaryEntries: DiaryEntry
 ): Movie {
     return {
         id: id,

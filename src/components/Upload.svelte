@@ -102,9 +102,9 @@
             };
 
             const watchMoment: WatchMoment = {
-                dateAdded: entry.Date,
+                dateAdded: parseDate(entry.Date),
                 rewatch: entry.Rewatch === 'Yes',
-                watchedDate: toDate(entry['Watched Date']),
+                watchedDate: parseDate(entry['Watched Date']),
             };
 
             const key = keyFromDiaryMovie(movie);
@@ -120,13 +120,9 @@
         return `${movie.title}-${movie.releaseYear}`;
     };
 
-    const toDate = (date: string): Date => {
-        var parts = date.split('-');
-        return new Date(
-            Number(parts[2]),
-            Number(parts[1]) - 1,
-            Number(parts[0])
-        );
+    const parseDate = (dateString: string): Date => {
+        const [year, month, day] = dateString.split('-').map(Number);
+        return new Date(year, month - 1, day);
     };
 
     const filterMoviesBasedOnAlreadyFetchedMovies = (
@@ -138,6 +134,7 @@
             const searchMovie: SearchMovie = {
                 title: diaryMovie.movie.title,
                 releaseYear: diaryMovie.movie.releaseYear,
+                diaryEntries: diaryMovie,
             };
 
             if (!movies.has(searchMovie)) {
