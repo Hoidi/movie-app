@@ -7,8 +7,10 @@
     import { diaryStore, movieStore, personStore } from '../store';
     import type {
         DiaryEntry,
+        DiaryMovie,
         SearchMovie,
         SearchMovieQueryBody,
+        WatchMoment,
     } from '../types';
 
     let files: Files;
@@ -41,6 +43,7 @@
                 }
 
                 movieStore.upsertList(movieSearchResults);
+
                 diaryStore.set(diary);
 
                 const peopleResults = await fetchPeople({
@@ -62,34 +65,59 @@
         return await readCsv(await entries['diary.csv'].text());
     };
 
-    const readCsv = async (content: string): Promise<DiaryEntry[]> => {
+    const readCsv = async (
+        content: string
+    ): Promise<Map<string, DiaryEntry>> => {
+        const getOrCreateDiaryEntry = (
+            key: string,
+            movie: DiaryMovie
+        ): DiaryEntry => {
+            const existingEntry = diary.get(key);
+            if (existingEntry) {
+                return existingEntry;
+            }
+            const newEntry = { movie: movie, watchMoments: [] };
+            diary.set(key, newEntry);
+            return newEntry;
+        };
+
         // parse data with last newline removed to avoid error
         const { data, errors, _ } = await parse(content.slice(0, -1), {
             header: true,
         });
 
-        let diary: DiaryEntry[] = [];
+        let diary: Map<string, DiaryEntry> = new Map();
 
         if (errors.length > 0) {
-            return diary;
+            return new Map();
         }
 
-        for (let i = 0; i < data.length; i++) {
-            const diaryEntry: DiaryEntry = {
-                dateAdded: data[i].Date,
-                title: data[i].Name,
-                releaseYear: Number(data[i].Year),
-                letterboxdURI: data[i]['Letterboxd URI'],
-                rating: Number(data[i].Rating),
-                rewatch: data[i].Rewatch === 'Yes',
-                tags: data[i].Tags,
-                watchedDate: toDate(data[i]['Watched Date']),
+        data.forEach((entry: any) => {
+            const movie: DiaryMovie = {
+                title: entry.Name,
+                releaseYear: Number(entry.Year),
+                tags: entry.Tags,
+                letterboxdURI: entry['Letterboxd URI'],
+                rating: Number(entry.Rating),
             };
 
-            diary.push(diaryEntry);
-        }
+            const watchMoment: WatchMoment = {
+                dateAdded: entry.Date,
+                rewatch: entry.Rewatch === 'Yes',
+                watchedDate: toDate(entry['Watched Date']),
+            };
+
+            const key = keyFromDiaryMovie(movie);
+
+            const diaryEntry = getOrCreateDiaryEntry(key, movie);
+            diaryEntry.watchMoments.push(watchMoment);
+        });
 
         return diary;
+    };
+
+    const keyFromDiaryMovie = (movie: DiaryMovie) => {
+        return `${movie.title}-${movie.releaseYear}`;
     };
 
     const toDate = (date: string): Date => {
@@ -102,20 +130,18 @@
     };
 
     const filterMoviesBasedOnAlreadyFetchedMovies = (
-        diary: DiaryEntry[]
+        diary: Map<string, DiaryEntry>
     ): SearchMovieQueryBody => {
         const searchItems: SearchMovieQueryBody = [];
 
-        diary.forEach((diaryEntry) => {
-            const diaryEntries: DiaryEntry[] = [];
-
-            const searchItem: SearchMovie = {
-                title: diaryEntry.title,
-                releaseYear: diaryEntry.releaseYear,
+        diary.forEach((diaryMovie, key, map) => {
+            const searchMovie: SearchMovie = {
+                title: diaryMovie.movie.title,
+                releaseYear: diaryMovie.movie.releaseYear,
             };
 
-            if (!movies.has(searchItem)) {
-                searchItems.push(searchItem);
+            if (!movies.has(searchMovie)) {
+                searchItems.push(searchMovie);
             }
         });
 
