@@ -1,5 +1,3 @@
-import type { Person } from './person';
-
 export type Movie = {
     id: number;
     title: string;
@@ -7,8 +5,8 @@ export type Movie = {
     posterPath: string;
     voteAverage: number;
     genres: string[];
-    cast: Person[];
-    crew: Person[];
+    cast: number[];
+    crew: number[];
 };
 
 export function NewMovie(
