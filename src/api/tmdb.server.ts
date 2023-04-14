@@ -1,5 +1,9 @@
 import { SECRET_TMDB_ACCESS_TOKEN } from '$env/static/private';
-import TMDB, { type MovieDetails } from 'tmdb-ts';
+import TMDB, {
+    type Credits,
+    type MovieDetails,
+    type PersonDetail,
+} from 'tmdb-ts';
 
 const tmdb = new TMDB(SECRET_TMDB_ACCESS_TOKEN);
 
@@ -9,6 +13,30 @@ export async function getMovie(id: number): Promise<MovieDetails | undefined> {
 
         if (movie != undefined) {
             return movie;
+        }
+    } catch (err) {
+        return undefined;
+    }
+}
+
+export async function getPerson(id: number): Promise<PersonDetail | undefined> {
+    try {
+        const credits = await tmdb.people.details(id);
+
+        if (credits != undefined) {
+            return credits;
+        }
+    } catch (err) {
+        return undefined;
+    }
+}
+
+export async function getCredits(id: number): Promise<Credits | undefined> {
+    try {
+        const credits = await tmdb.movies.credits(id);
+
+        if (credits != undefined) {
+            return credits;
         }
     } catch (err) {
         return undefined;
