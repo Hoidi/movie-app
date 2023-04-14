@@ -1,20 +1,21 @@
 import type { Job } from './job';
+
 export type Person = {
     id: number;
     name: string;
-    gender: 'female' | 'male' | 'other';
+    gender: 'female' | 'male' | 'other' | 'unknown';
     jobs: Job[];
     placeOfBirth?: string;
-    dateOfBirth?: Date;
+    dateOfBirth?: string; // change to Date later
 };
 
 export function newPerson(
     id: number,
     name: string,
-    gender: 'female' | 'male' | 'other',
+    gender: 'female' | 'male' | 'other' | 'unknown',
     jobs: Job[],
     placeOfBirth?: string,
-    dateOfBirth?: Date
+    dateOfBirth?: string
 ): Person {
     return {
         id: id,
