@@ -47,7 +47,9 @@
                 diaryStore.set(diary);
 
                 const peopleResults = await fetchPeople({
-                    movieIds: movieSearchResults.map((movie) => movie.id),
+                    movieIds: movieSearchResults
+                        .map((movie) => movie?.id)
+                        .filter(Boolean),
                 });
 
                 personStore.setFromList(peopleResults);
