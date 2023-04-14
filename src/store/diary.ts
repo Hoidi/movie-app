@@ -1,5 +1,5 @@
 import { persisted } from 'svelte-local-storage-store';
-import type { DiaryEntry } from '../types/diary';
+import type { DiaryEntry } from '../types';
 
 const initial: DiaryEntry[] = [];
 

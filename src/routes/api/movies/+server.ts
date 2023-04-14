@@ -1,41 +1,41 @@
 import { error, json } from '@sveltejs/kit';
 import { searchMovie } from '../../../api/tmdb.server';
-import { NewMovie } from '../../../types/movie';
+import {
+    NewMovie,
+    type SearchMovie,
+    type SearchMovieQueryBody,
+} from '../../../types';
 import type { RequestHandler } from './$types';
 
-// TODO: Add DiaryEntry in body in order to match it to a movie here
-export type SearchMovieItem = {
-    title: string;
-    releaseYear: number;
-};
-
 export const POST = (async ({ request }) => {
-    const body: SearchMovieItem[] = (await request.json()).movies;
+    const searchMovieQueryBody: SearchMovieQueryBody = await request.json();
 
-    body.forEach(verifyInput);
+    searchMovieQueryBody.forEach(verifyInput);
 
     const movieSearchResults = await Promise.all(
-        body.map(async (searchMovieItem) => searchItemToMovie(searchMovieItem))
+        searchMovieQueryBody.map(async (searchMovieItem) =>
+            searchItemToMovie(searchMovieItem)
+        )
     );
 
     return json({ movieSearchResults });
 }) satisfies RequestHandler;
 
-const verifyInput = (batchSearch: SearchMovieItem) => {
-    if (batchSearch.title == undefined) {
+const verifyInput = (searchItem: SearchMovie) => {
+    if (searchItem.title == undefined) {
         throw error(418, 'Bad input');
     }
 
-    if (batchSearch.title.length > 220) {
+    if (searchItem.title.length > 220) {
         throw error(400, 'Too long title');
     }
 
-    if (batchSearch.releaseYear < 1800 || 2050 < batchSearch.releaseYear) {
+    if (searchItem.releaseYear < 1800 || 2050 < searchItem.releaseYear) {
         throw error(400, 'Invalid year');
     }
 };
 
-const searchItemToMovie = async (searchItem: SearchMovieItem) => {
+const searchItemToMovie = async (searchItem: SearchMovie) => {
     return searchMovie(searchItem.title, searchItem.releaseYear).then(
         (movieDetails) => {
             if (movieDetails) {

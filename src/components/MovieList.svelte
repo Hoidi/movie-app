@@ -9,8 +9,8 @@
         TableHeadCell,
     } from 'flowbite-svelte';
     import { onDestroy } from 'svelte';
-    import { movieStore } from '../store/movies';
-    import type { Movie } from '../types/movie';
+    import { movieStore } from '../store';
+    import type { Movie } from '../types';
 
     let movies: Movie[] = [];
 

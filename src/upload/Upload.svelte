@@ -3,18 +3,18 @@
     import { Button } from 'flowbite-svelte';
     import { parse } from 'papaparse';
     import { unzip } from 'unzipit';
-    import { searchMovies } from '../apiTwo/movies';
-    import { fetchPeople } from '../apiTwo/people';
-    import type { SearchMovieItem } from '../routes/api/movies/+server';
-    import { diaryStore } from '../store/diary';
-    import { movieStore } from '../store/movies';
-    import { personStore } from '../store/people';
-    import type { DiaryEntry } from '../types/diary';
+    import { fetchPeople, searchMovies } from '../api';
+    import { diaryStore, movieStore, personStore } from '../store';
+    import type {
+        DiaryEntry,
+        SearchMovie,
+        SearchMovieQueryBody,
+    } from '../types';
 
     let files: Files;
     let options = {};
 
-    const movies: Set<SearchMovieItem> = new Set();
+    const movies: Set<SearchMovie> = new Set();
 
     movieStore.subscribe((storedMovies) => {
         let movieList = Object.values(storedMovies);
@@ -48,9 +48,9 @@
                 movieStore.upsertList(movieSearchResults);
                 diaryStore.set(diary);
 
-                const peopleResults = await fetchPeople(
-                    movieSearchResults.map((movie) => ({ movieId: movie.id }))
-                );
+                const peopleResults = await fetchPeople({
+                    movieIds: movieSearchResults.map((movie) => movie.id),
+                });
 
                 personStore.setFromList(peopleResults);
             }
@@ -108,11 +108,11 @@
 
     const filterMoviesBasedOnAlreadyFetchedMovies = (
         diary: DiaryEntry[]
-    ): SearchMovieItem[] => {
-        const searchItems: SearchMovieItem[] = [];
+    ): SearchMovieQueryBody => {
+        const searchItems: SearchMovieQueryBody = [];
 
         diary.forEach((diaryEntry) => {
-            const searchItem: SearchMovieItem = {
+            const searchItem: SearchMovie = {
                 title: diaryEntry.title,
                 releaseYear: diaryEntry.releaseYear,
             };

@@ -1,21 +1,16 @@
 import { error, json } from '@sveltejs/kit';
 import { getCredits, getPerson } from '../../../api/tmdb.server';
-import { newJob, type Job } from '../../../types/job';
-import { newPerson, type Person } from '../../../types/person';
+import { newJob, newPerson, type Job, type Person } from '../../../types';
 import type { RequestHandler } from './$types';
 
-export type PeopleFromMovieBody = {
-    movieId: number;
-};
-
 export const POST = (async ({ request }) => {
-    const body: PeopleFromMovieBody[] = (await request.json()).movieIds;
+    const movieIds: number[] = (await request.json()).movieIds;
 
-    body.forEach(verifyInput);
+    movieIds.forEach(verifyInput);
 
     const castAndCrewInMovies = await Promise.all(
-        body.map(async (movie) => {
-            return await setupCastAndCrew(movie.movieId);
+        movieIds.map(async (movieId) => {
+            return await setupCastAndCrew(movieId);
         })
     );
 
@@ -42,12 +37,12 @@ export const POST = (async ({ request }) => {
     return json({ peopleResults });
 }) satisfies RequestHandler;
 
-const verifyInput = (batchMovieIds: PeopleFromMovieBody) => {
-    if (batchMovieIds.movieId == undefined) {
+const verifyInput = (movieId: number) => {
+    if (movieId == undefined) {
         throw error(418, 'Bad input');
     }
 
-    if (batchMovieIds.movieId.toString().length > 20) {
+    if (movieId.toString().length > 20) {
         throw error(400, 'Too long id');
     }
 };

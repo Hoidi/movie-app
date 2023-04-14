@@ -1,5 +1,5 @@
 import { persisted } from 'svelte-local-storage-store';
-import type { Movie } from '../types/movie';
+import type { Movie } from '../types';
 
 export type MovieIdMap = Record<number, Movie>;
 

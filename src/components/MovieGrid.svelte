@@ -1,7 +1,7 @@
 <script lang="ts">
     import { onDestroy } from 'svelte';
-    import { movieStore } from '../store/movies';
-    import type { Movie } from '../types/movie';
+    import { movieStore } from '../store';
+    import type { Movie } from '../types';
     import MovieGridItem from './MovieGridItem.svelte';
 
     let movies: Movie[] = [];

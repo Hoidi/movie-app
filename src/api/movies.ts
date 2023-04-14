@@ -1,24 +1,21 @@
-import type { SearchMovieItem } from '../routes/api/movies/+server';
-import type { Movie } from '../types/movie';
+import type { Movie, SearchMovieQueryBody } from '../types';
 
 export const searchMovies = async (
-    searchItems: SearchMovieItem[]
+    searchItems: SearchMovieQueryBody
 ): Promise<Movie[]> => {
     if (searchItems.length === 0) {
         console.log('no need to fetch movies');
         return Promise.resolve([]);
     }
 
-    const body = {
-        movies: searchItems.slice(0, 5),
-    };
+    searchItems = searchItems.slice(0, 5);
 
     return fetch('/api/movies', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify(body),
+        body: JSON.stringify(searchItems),
     })
         .then((response) => {
             return response.json();

@@ -1,5 +1,5 @@
 import { persisted } from 'svelte-local-storage-store';
-import type { Person } from '../types/person';
+import type { Person } from '../types';
 
 export type PersonIdMap = Record<number, Person>;
 
