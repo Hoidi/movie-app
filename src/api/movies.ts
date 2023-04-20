@@ -21,6 +21,6 @@ export const searchMovies = async (
             return response.json();
         })
         .then((json) => {
-            return json.movieSearchResults;
+            return json.movieSearchResults.filter(Boolean);
         });
 };

@@ -21,6 +21,6 @@ export const fetchPeople = async (
             return response.json();
         })
         .then((json) => {
-            return json.peopleResults;
+            return json.peopleResults.filter(Boolean);
         });
 };
