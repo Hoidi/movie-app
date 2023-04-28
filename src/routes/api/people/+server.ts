@@ -73,12 +73,20 @@ const addPersonToRecord = (
 const setupCastAndCrew = async (
     movieId: number
 ): Promise<Record<number, Job[]>> => {
+    const addToPeople = (id: number, job: string) => {
+        if (people[id] == undefined) {
+            people[id] = [];
+        }
+        people[id].push(newJob(movieId, job));
+    };
+
     const people: Record<number, Job[]> = {};
-    const peopleLimit = 5;
+    const peopleLimit = 10;
     const credits = await getCredits(movieId);
 
     if (credits) {
         // TODO: filter undefined
+        // TODO: one person can have multiple jobs in one movie
         const cast = credits.cast.map((cast) => cast.id).slice(0, peopleLimit);
         const crew = credits.crew
             .map((crew) => ({
@@ -88,18 +96,18 @@ const setupCastAndCrew = async (
             .slice(0, peopleLimit);
 
         cast.forEach((castId) => {
-            if (people[castId] == undefined) {
-                people[castId] = [];
-            }
-            people[castId].push(newJob(movieId, 'Actor'));
+            addToPeople(castId, 'Actor');
         });
 
         crew.forEach((crew) => {
-            if (people[crew.id] == undefined) {
-                people[crew.id] = [];
-            }
-            people[crew.id].push(newJob(movieId, crew.job));
+            addToPeople(crew.id, crew.job);
         });
+
+        const director = credits.crew.find((crew) => crew.job === 'Director');
+
+        if (director) {
+            addToPeople(director.id, director.job);
+        }
     }
 
     return people;
