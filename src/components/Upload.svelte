@@ -53,6 +53,16 @@
                 });
 
                 personStore.setFromList(peopleResults);
+
+                peopleResults.forEach((person) => {
+                    person.jobs.forEach((job) => {
+                        if (job.job === 'Actor') {
+                            $movieStore[job.movieId].cast.push({ person, job });
+                        } else {
+                            $movieStore[job.movieId].crew.push({ person, job });
+                        }
+                    });
+                });
             }
         }
     };

@@ -1,4 +1,6 @@
 import type { DiaryEntry } from './diary';
+import type { Job } from './job';
+import type { Person } from './person';
 
 export type Movie = {
     id: number;
@@ -11,8 +13,8 @@ export type Movie = {
     countryOfOrigin: string;
     genres: string[];
     diaryEntries: DiaryEntry;
-    cast: number[];
-    crew: number[];
+    cast: { person: Person; job: Job }[];
+    crew: { person: Person; job: Job }[];
 };
 
 export function NewMovie(
