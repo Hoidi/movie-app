@@ -9,7 +9,9 @@ import {
 import type { RequestHandler } from './$types';
 
 export const POST = (async ({ request }) => {
-    const searchMovieQueryBody: SearchMovieQueryBody = await request.json();
+    const searchMovieQueryBody: SearchMovieQueryBody = (
+        await request.json()
+    ).slice(0, 30);
 
     searchMovieQueryBody.forEach(verifyInput);
 

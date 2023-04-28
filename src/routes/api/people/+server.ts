@@ -1,15 +1,23 @@
 import { error, json } from '@sveltejs/kit';
 import { getCredits, getPerson } from '../../../api/tmdb.server';
-import { newJob, newPerson, type Job, type Person } from '../../../types';
+import {
+    newJob,
+    newPerson,
+    type Job,
+    type MovieIdsQueryBody,
+    type Person,
+} from '../../../types';
 import type { RequestHandler } from './$types';
 
 export const POST = (async ({ request }) => {
-    const movieIds: number[] = (await request.json()).movieIds;
+    const movieIds: MovieIdsQueryBody = await request.json();
 
-    movieIds.forEach(verifyInput);
+    movieIds.movieIds = movieIds.movieIds.slice(0, 30);
+
+    movieIds.movieIds.forEach(verifyInput);
 
     const castAndCrewInMovies = await Promise.all(
-        movieIds.map(async (movieId) => {
+        movieIds.movieIds.map(async (movieId) => {
             return await setupCastAndCrew(movieId);
         })
     );

@@ -8,8 +8,6 @@ export const searchMovies = async (
         return Promise.resolve([]);
     }
 
-    searchItems = searchItems.slice(0, 5);
-
     return fetch('/api/movies', {
         method: 'POST',
         headers: {

@@ -144,7 +144,7 @@
             }
         });
 
-        return searchItems.slice(0, 30);
+        return searchItems;
     };
 </script>
 
