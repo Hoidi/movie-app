@@ -6,6 +6,9 @@ export type Movie = {
     releaseYear: number;
     posterPath: string;
     voteAverage: number;
+    budgetInUsd: number;
+    runningTime: Date;
+    countryOfOrigin: string;
     genres: string[];
     diaryEntries: DiaryEntry;
     cast: number[];
@@ -18,6 +21,9 @@ export function NewMovie(
     releaseYear: number,
     posterPath: string,
     voteAverage: number,
+    budgetInUsd: number,
+    runningTime: Date,
+    countryOfOrigin: string,
     genres: string[],
     diaryEntries: DiaryEntry
 ): Movie {
@@ -27,6 +33,9 @@ export function NewMovie(
         releaseYear: releaseYear,
         posterPath: posterPath,
         voteAverage: voteAverage,
+        budgetInUsd: budgetInUsd,
+        runningTime: runningTime,
+        countryOfOrigin: countryOfOrigin,
         genres: genres,
         diaryEntries: diaryEntries,
         cast: [],

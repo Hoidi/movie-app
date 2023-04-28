@@ -50,6 +50,9 @@ const searchItemToMovie = async (
                     Number(movieDetails.release_date.slice(0, 4)),
                     movieDetails.poster_path,
                     movieDetails.vote_average,
+                    movieDetails.budget,
+                    new Date(movieDetails.runtime * 60000),
+                    movieDetails.production_countries.at(0)?.name || 'Unknown',
                     movieDetails.genres.map((g) => g.name),
                     searchItem.diaryEntries
                 );
