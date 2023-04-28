@@ -1,5 +1,7 @@
 import { SECRET_TMDB_ACCESS_TOKEN } from '$env/static/private';
-import TMDB, {
+
+import {
+    TMDB,
     type Credits,
     type Movie,
     type MovieDetails,
