@@ -8,29 +8,23 @@
         TableHead,
         TableHeadCell,
     } from 'flowbite-svelte';
-    import { onDestroy } from 'svelte';
-    import { movieStore } from '../store';
     import type { Movie } from '../types';
 
-    let movies: Movie[] = [];
-
-    const unsub = movieStore.subscribe((storedMovies) => {
-        movies = Object.values(storedMovies);
-    });
-
-    onDestroy(unsub);
+    export let movies: Movie[] = [];
 </script>
 
 <Table hoverable>
     <TableHead>
+        <TableHeadCell>Order</TableHeadCell>
         <TableHeadCell>Title</TableHeadCell>
         <TableHeadCell>Average rating</TableHeadCell>
         <TableHeadCell>Your rating</TableHeadCell>
         <TableHeadCell>Genre</TableHeadCell>
     </TableHead>
     <TableBody tableBodyClass="divide-y">
-        {#each movies as movie}
+        {#each movies as movie, index}
             <TableBodyRow>
+                <TableBodyCell>{index + 1}</TableBodyCell>
                 <TableBodyCell>{movie.title}</TableBodyCell>
                 <TableBodyCell>
                     <Rating
