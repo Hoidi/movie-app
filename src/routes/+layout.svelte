@@ -1,6 +1,9 @@
 <script lang="ts">
     import { page } from '$app/stores';
     import {
+        Chevron,
+        Dropdown,
+        DropdownItem,
         Footer,
         FooterLink,
         FooterLinkGroup,
@@ -36,7 +39,31 @@
             <NavHamburger on:click={toggle} />
             <NavUl {hidden}>
                 <NavLi href="/" active={path === '/'}>Home</NavLi>
+                <NavLi id="nav-menu1" class="cursor-pointer"
+                    ><Chevron aligned>Stats</Chevron></NavLi
+                >
                 <NavLi href="/grid" active={path === '/grid'}>Grid</NavLi>
+                <Dropdown triggeredBy="#nav-menu1" class="w-44 z-20">
+                    <DropdownItem
+                        ><NavLi
+                            href="/stats/general"
+                            active={path === '/stats/general'}>General</NavLi
+                        ></DropdownItem
+                    >
+                    <DropdownItem
+                        ><NavLi
+                            href="/stats/director"
+                            active={path === '/stats/director'}>Director</NavLi
+                        ></DropdownItem
+                    >
+                    <DropdownItem
+                        ><NavLi
+                            href="/stats/country"
+                            active={path === '/stats/country'}
+                            >Country of origin</NavLi
+                        ></DropdownItem
+                    >
+                </Dropdown>
                 <NavLi href="/upload" active={path === '/upload'}>Upload</NavLi>
                 <NavLi href="/reset" active={path === '/reset'}>Reset</NavLi>
             </NavUl>
