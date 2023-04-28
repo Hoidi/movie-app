@@ -1,12 +1,9 @@
 <script lang="ts">
     import { Alert, Select } from 'flowbite-svelte';
-    import GroupedMovieList, {
-        GroupSortingOrder,
-        groupSortingOrders,
-        type Groups,
-    } from '../../../components/GroupedMovieList.svelte';
+    import GroupedMovieList from '../../../components/GroupedMovieList.svelte';
+    import { GroupSortingOrder, groupSortingOrders } from '../../../sorting';
     import { movieStore } from '../../../store';
-    import type { Movie } from '../../../types';
+    import type { Groups, Movie } from '../../../types';
 
     let sortingOrder = GroupSortingOrder.averageReleaseYear;
 
