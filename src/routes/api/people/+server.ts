@@ -87,19 +87,17 @@ const setupCastAndCrew = async (
     if (credits) {
         // TODO: filter undefined
         // TODO: one person can have multiple jobs in one movie
-        const cast = credits.cast.map((cast) => cast.id).slice(0, peopleLimit);
-        const crew = credits.crew
-            .map((crew) => ({
-                id: crew.id,
-                job: crew.job,
-            }))
-            .slice(0, peopleLimit);
+        const cast = credits.cast.map((cast) => cast.id);
+        const crew = credits.crew.map((crew) => ({
+            id: crew.id,
+            job: crew.job,
+        }));
 
-        cast.forEach((castId) => {
+        cast.slice(0, peopleLimit).forEach((castId) => {
             addToPeople(castId, 'Actor');
         });
 
-        crew.forEach((crew) => {
+        crew.slice(0, peopleLimit).forEach((crew) => {
             if (crew.job !== 'Director') {
                 addToPeople(crew.id, crew.job);
             }
