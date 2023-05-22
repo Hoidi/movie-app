@@ -27,10 +27,7 @@
                 <TableBodyCell>{index + 1}</TableBodyCell>
                 <TableBodyCell>{movie.title}</TableBodyCell>
                 <TableBodyCell>
-                    <Rating
-                        total={5}
-                        rating={Math.round(movie.voteAverage / 2)}
-                    >
+                    <Rating total={5} rating={movie.voteAverage / 2}>
                         <p
                             slot="text"
                             class="ml-2 text-sm font-medium text-gray-500 dark:text-gray-400"
