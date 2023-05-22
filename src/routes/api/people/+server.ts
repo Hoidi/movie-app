@@ -1,3 +1,4 @@
+import { PUBLIC_PEOPLE_LIMIT } from '$env/static/public';
 import { error, json } from '@sveltejs/kit';
 import { getCredits, getPerson } from '../../../api/tmdb.server';
 import {
@@ -81,7 +82,6 @@ const setupCastAndCrew = async (
     };
 
     const people: Record<number, Job[]> = {};
-    const peopleLimit = 10;
     const credits = await getCredits(movieId);
 
     if (credits) {
@@ -93,11 +93,11 @@ const setupCastAndCrew = async (
             job: crew.job,
         }));
 
-        cast.slice(0, peopleLimit).forEach((castId) => {
+        cast.slice(0, Number(PUBLIC_PEOPLE_LIMIT)).forEach((castId) => {
             addToPeople(castId, 'Actor');
         });
 
-        crew.slice(0, peopleLimit).forEach((crew) => {
+        crew.slice(0, Number(PUBLIC_PEOPLE_LIMIT)).forEach((crew) => {
             if (crew.job !== 'Director') {
                 addToPeople(crew.id, crew.job);
             }
