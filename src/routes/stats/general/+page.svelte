@@ -143,7 +143,7 @@
 
 <div class="sortSelection">
     <Select class="mt-2" items={sortingOrders} bind:value={sortingOrder} />
-    <Button on:click={sort}>Sort</Button>
+    <Button color="blue" on:click={sort}>Sort</Button>
 </div>
 
 {#if movies.length == 0}

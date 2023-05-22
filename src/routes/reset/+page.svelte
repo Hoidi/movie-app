@@ -20,7 +20,7 @@
     }
 </script>
 
-<Button on:click={resetStores}>Reset stores</Button>
+<Button color="blue" on:click={resetStores}>Reset stores</Button>
 
 <div class="toast">
     <Toast color="green" class="mb-2" bind:open={showToast}>

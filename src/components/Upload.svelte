@@ -185,7 +185,7 @@
         {#each files.accepted as file, i}
             <li>
                 {file.name} -
-                <Button on:click={(_) => readFileIntoStores(i)}
+                <Button color="blue" on:click={(_) => readFileIntoStores(i)}
                     >Read file</Button
                 >
             </li>
