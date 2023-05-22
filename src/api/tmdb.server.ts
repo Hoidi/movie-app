@@ -5,7 +5,7 @@ import {
     type Credits,
     type Movie,
     type MovieDetails,
-    type PersonDetail,
+    type PersonDetails,
     type Search,
     type TV,
     type TvShowDetails,
@@ -37,7 +37,9 @@ async function getSerie(id: number): Promise<TvShowDetails | undefined> {
     }
 }
 
-export async function getPerson(id: number): Promise<PersonDetail | undefined> {
+export async function getPerson(
+    id: number
+): Promise<PersonDetails | undefined> {
     try {
         const credits = await tmdb.people.details(id);
 

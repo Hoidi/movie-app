@@ -48,7 +48,7 @@ const searchItemToMovie = async (
                     movieDetails.id,
                     movieDetails.title,
                     Number(movieDetails.release_date.slice(0, 4)),
-                    movieDetails.poster_path,
+                    movieDetails.backdrop_path,
                     movieDetails.vote_average,
                     movieDetails.budget,
                     new Date(movieDetails.runtime * 60000),

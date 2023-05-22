@@ -28,7 +28,7 @@
         "tailwindcss": "^3.3.1",
         "tslib": "^2.5.0",
         "typescript": "^5.0.4",
-        "tmdb-ts": "^1.0.0",
+        "tmdb-ts": "^1.4.0",
         "unzipit": "^1.4.3",
         "vite": "^4.2.1"
     },
