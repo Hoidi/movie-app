@@ -36,7 +36,7 @@
         return groups;
     };
 
-    const groups = createGroups(Object.values($movieStore));
+    $: groups = createGroups(Object.values($movieStore));
 </script>
 
 <Select class="mt-2" items={groupSortingOrders} bind:value={sortingOrder} />

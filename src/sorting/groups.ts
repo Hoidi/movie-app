@@ -24,7 +24,7 @@ export enum GroupSortingOrder {
 }
 
 export const groupSortingOrders = [
-    { value: GroupSortingOrder.averageUserrating, name: 'Rating' },
+    { value: GroupSortingOrder.averageUserrating, name: 'Average rating' },
     {
         value: GroupSortingOrder.averageRatingDiff,
         name: 'Average rating difference',

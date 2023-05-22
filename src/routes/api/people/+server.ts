@@ -100,7 +100,9 @@ const setupCastAndCrew = async (
         });
 
         crew.forEach((crew) => {
-            addToPeople(crew.id, crew.job);
+            if (crew.job !== 'Director') {
+                addToPeople(crew.id, crew.job);
+            }
         });
 
         const director = credits.crew.find((crew) => crew.job === 'Director');
