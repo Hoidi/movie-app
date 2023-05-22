@@ -2,6 +2,7 @@
     import { filedrop, type Files } from 'filedrop-svelte';
     import { Button } from 'flowbite-svelte';
     import { parse } from 'papaparse';
+    import { createEventDispatcher } from 'svelte';
     import { unzip } from 'unzipit';
     import { fetchPeople, searchMovies } from '../api';
     import {
@@ -32,6 +33,8 @@
     });
 
     const readFileIntoStores = async (index: number) => {
+        updateLoadbar(1, 'Fetching movies');
+
         let f = files.accepted[index];
 
         if (f.type === 'application/x-zip-compressed') {
@@ -42,6 +45,7 @@
                     filterMoviesBasedOnAlreadyFetchedMovies(diary);
 
                 const movieSearchResults = await searchMovies(searchItems);
+                updateLoadbar(50, 'Fetching people');
 
                 diaryStore.set(diary);
 
@@ -50,6 +54,8 @@
                         .map((movie) => movie?.id)
                         .filter(Boolean),
                 });
+
+                updateLoadbar(95, 'Finalizing');
 
                 personStore.setFromList(peopleResults);
 
@@ -69,6 +75,8 @@
                         }
                     })
                 );
+
+                updateLoadbar(100, 'Done');
 
                 movieStore.set(movieRecord);
             }
@@ -164,6 +172,14 @@
 
         return searchItems;
     };
+
+    const dispatch = createEventDispatcher();
+    function updateLoadbar(statusPercentrage: number, statusText: string) {
+        dispatch('loadbarStatus', {
+            statusPercentrage: statusPercentrage,
+            statusText: statusText,
+        });
+    }
 </script>
 
 <div
