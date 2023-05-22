@@ -12,6 +12,7 @@ function createMovies() {
 
     return {
         subscribe,
+        set,
         upsert: (movie: Movie) => {
             update((record) => ({ ...record, [movie.id]: movie }));
         },

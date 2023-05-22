@@ -4,7 +4,12 @@
     import { parse } from 'papaparse';
     import { unzip } from 'unzipit';
     import { fetchPeople, searchMovies } from '../api';
-    import { diaryStore, movieStore, personStore } from '../store';
+    import {
+        diaryStore,
+        movieStore,
+        personStore,
+        type MovieIdMap,
+    } from '../store';
     import type {
         DiaryEntry,
         DiaryMovie,
@@ -38,12 +43,6 @@
 
                 const movieSearchResults = await searchMovies(searchItems);
 
-                if (!movieSearchResults) {
-                    return;
-                }
-
-                movieStore.upsertList(movieSearchResults);
-
                 diaryStore.set(diary);
 
                 const peopleResults = await fetchPeople({
@@ -54,15 +53,24 @@
 
                 personStore.setFromList(peopleResults);
 
-                peopleResults.forEach((person) => {
-                    person.jobs.forEach((job) => {
-                        if (job.job === 'Actor') {
-                            $movieStore[job.movieId].cast.push({ person, job });
-                        } else {
-                            $movieStore[job.movieId].crew.push({ person, job });
-                        }
-                    });
+                const movieRecord: MovieIdMap = {};
+                movieSearchResults.forEach((movie) => {
+                    movieRecord[movie.id] = movie;
                 });
+
+                peopleResults.forEach((person) =>
+                    person.jobs.forEach((job) => {
+                        const movie = movieRecord[job.movieId];
+
+                        if (job.job === 'Actor') {
+                            movie.cast.push({ person, job });
+                        } else {
+                            movie.crew.push({ person, job });
+                        }
+                    })
+                );
+
+                movieStore.set(movieRecord);
             }
         }
     };
