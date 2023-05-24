@@ -15,7 +15,6 @@
         "@sveltejs/adapter-auto": "^2.0.0",
         "@sveltejs/kit": "^1.15.5",
         "autoprefixer": "^10.4.14",
-        "filedrop-svelte": "^0.1.2",
         "papaparse": "^5.4.1",
         "postcss": "^8.4.21",
         "postcss-load-config": "^4.0.1",

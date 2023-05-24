@@ -21,8 +21,6 @@
     let statusText = '';
 </script>
 
-<h1>Here you can upload stuff</h1>
-
 <Upload on:loadbarStatus={handleUpdateLoadbar} />
 
 {#if statusPercentrage > 0}
