@@ -17,7 +17,7 @@ export async function getMovie(id: number): Promise<MovieDetails | undefined> {
     try {
         const movie = await tmdb.movies.details(id);
 
-        if (movie != undefined) {
+        if (movie) {
             return movie;
         }
     } catch (err) {
@@ -29,7 +29,7 @@ async function getSerie(id: number): Promise<TvShowDetails | undefined> {
     try {
         const serie = await tmdb.tvShows.details(id);
 
-        if (serie != undefined) {
+        if (serie) {
             return serie;
         }
     } catch (err) {
@@ -41,10 +41,10 @@ export async function getPerson(
     id: number
 ): Promise<PersonDetails | undefined> {
     try {
-        const credits = await tmdb.people.details(id);
+        const person = await tmdb.people.details(id);
 
-        if (credits != undefined) {
-            return credits;
+        if (person) {
+            return person;
         }
     } catch (err) {
         return undefined;
@@ -55,7 +55,7 @@ export async function getCredits(id: number): Promise<Credits | undefined> {
     try {
         const credits = await tmdb.movies.credits(id);
 
-        if (credits != undefined) {
+        if (credits) {
             return credits;
         }
     } catch (err) {
@@ -75,14 +75,14 @@ export async function searchMovie(
 
         const movie = findMovieWithDiff(movies, title, releaseYear, 0);
 
-        if (movie != undefined) {
+        if (movie) {
             return await getMovie(movie.id);
         }
 
         // sometimes the release year differes by one
         const movieSecond = findMovieWithDiff(movies, title, releaseYear, 1);
 
-        if (movieSecond != undefined) {
+        if (movieSecond) {
             return await getMovie(movieSecond.id);
         }
 
@@ -93,14 +93,14 @@ export async function searchMovie(
 
         const serie = findSerieWithDiff(series, title, releaseYear, 0);
 
-        if (serie != undefined) {
+        if (serie) {
             return await getSerie(serie.id);
         }
 
         // sometimes the release year differes by one
         const seriesSecond = findSerieWithDiff(series, title, releaseYear, 1);
 
-        if (seriesSecond != undefined) {
+        if (seriesSecond) {
             return await getSerie(seriesSecond.id);
         }*/
     } catch (err) {
