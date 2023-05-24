@@ -28,7 +28,6 @@
         "tslib": "^2.5.0",
         "typescript": "^5.0.4",
         "tmdb-ts": "^1.4.0",
-        "unzipit": "^1.4.3",
         "vite": "^4.2.1"
     },
     "type": "module",

@@ -1,9 +1,8 @@
 <script lang="ts">
     import { Button, Fileupload, Label } from 'flowbite-svelte';
-    import { parse } from 'papaparse';
     import { createEventDispatcher } from 'svelte';
-    import { unzip } from 'unzipit';
     import { fetchPeople, searchMovies } from '../api';
+    import { readCsv } from '../parsing';
     import {
         diaryStore,
         movieStore,
@@ -12,10 +11,8 @@
     } from '../store';
     import type {
         DiaryEntry,
-        DiaryMovie,
         SearchMovie,
         SearchMovieQueryBody,
-        WatchMoment,
     } from '../types';
 
     let files: FileList;
@@ -31,16 +28,16 @@
     });
 
     const readFileIntoStores = async (files: FileList) => {
-        if (files.length < 1) {
+        const file = files.item(0);
+
+        if (!file) {
             return;
         }
 
         updateLoadbar(1, 'Fetching movies');
 
-        const file = files.item(0);
-
-        if (file?.type === 'application/x-zip-compressed') {
-            const diary = await readZipIntoDiary(await file.arrayBuffer());
+        if (file.type === 'application/vnd.ms-excel') {
+            const diary = await readCsv(await file.text());
 
             if (diary) {
                 const searchItems =
@@ -83,76 +80,6 @@
                 movieStore.set(movieRecord);
             }
         }
-    };
-
-    const readZipIntoDiary = async (url: ArrayBuffer) => {
-        if (url == undefined) {
-            return;
-        }
-
-        const { entries } = await unzip(url);
-
-        return await readCsv(await entries['diary.csv'].text());
-    };
-
-    const readCsv = async (
-        content: string
-    ): Promise<Map<string, DiaryEntry>> => {
-        const getOrCreateDiaryEntry = (
-            key: string,
-            movie: DiaryMovie
-        ): DiaryEntry => {
-            const existingEntry = diary.get(key);
-            if (existingEntry) {
-                return existingEntry;
-            }
-            const newEntry = { movie: movie, watchMoments: [] };
-            diary.set(key, newEntry);
-            return newEntry;
-        };
-
-        // parse data with last newline removed to avoid error
-        const { data, errors, _ } = await parse(content.slice(0, -1), {
-            header: true,
-        });
-
-        let diary: Map<string, DiaryEntry> = new Map();
-
-        if (errors.length > 0) {
-            return new Map();
-        }
-
-        data.forEach((entry: any) => {
-            const movie: DiaryMovie = {
-                title: entry.Name,
-                releaseYear: Number(entry.Year),
-                tags: entry.Tags,
-                letterboxdURI: entry['Letterboxd URI'],
-                rating: Number(entry.Rating),
-            };
-
-            const watchMoment: WatchMoment = {
-                dateAdded: parseDate(entry.Date),
-                rewatch: entry.Rewatch === 'Yes',
-                watchedDate: parseDate(entry['Watched Date']),
-            };
-
-            const key = keyFromDiaryMovie(movie);
-
-            const diaryEntry = getOrCreateDiaryEntry(key, movie);
-            diaryEntry.watchMoments.push(watchMoment);
-        });
-
-        return diary;
-    };
-
-    const keyFromDiaryMovie = (movie: DiaryMovie) => {
-        return `${movie.title}-${movie.releaseYear}`;
-    };
-
-    const parseDate = (dateString: string): Date => {
-        const [year, month, day] = dateString.split('-').map(Number);
-        return new Date(year, month - 1, day);
     };
 
     const filterMoviesBasedOnAlreadyFetchedMovies = (

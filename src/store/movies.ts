@@ -1,9 +1,13 @@
 import { persisted } from 'svelte-local-storage-store';
-import type { Movie } from '../types';
+import type { DiaryMovie, Movie } from '../types';
 
 export type MovieIdMap = Record<number, Movie>;
 
 let initial: MovieIdMap = {};
+
+export const keyFromDiaryMovie = (movie: DiaryMovie) => {
+    return `${movie.title}-${movie.releaseYear}`;
+};
 
 function createMovies() {
     const { subscribe, set, update } = persisted('movies', initial, {
