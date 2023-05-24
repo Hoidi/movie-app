@@ -55,9 +55,8 @@
                         >
                         <DropdownItem
                             ><NavLi
-                                href="/stats/director"
-                                active={path === '/stats/director'}
-                                >Director</NavLi
+                                href="/stats/actor"
+                                active={path === '/stats/actor'}>Actor</NavLi
                             ></DropdownItem
                         >
                         <DropdownItem
@@ -65,6 +64,19 @@
                                 href="/stats/country"
                                 active={path === '/stats/country'}
                                 >Country of origin</NavLi
+                            ></DropdownItem
+                        >
+                        <DropdownItem
+                            ><NavLi
+                                href="/stats/director"
+                                active={path === '/stats/director'}
+                                >Director</NavLi
+                            ></DropdownItem
+                        >
+                        <DropdownItem
+                            ><NavLi
+                                href="/stats/genre"
+                                active={path === '/stats/genre'}>Genre</NavLi
                             ></DropdownItem
                         >
                     </Dropdown>
