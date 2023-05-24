@@ -1,4 +1,4 @@
-import { PUBLIC_PEOPLE_LIMIT } from '$env/static/public';
+import { PUBLIC_MOVIE_LIMIT, PUBLIC_PEOPLE_LIMIT } from '$env/static/public';
 import { error, json } from '@sveltejs/kit';
 import { getCredits, getPerson } from '../../../api/tmdb.server';
 import {
@@ -13,7 +13,7 @@ import type { RequestHandler } from './$types';
 export const POST = (async ({ request }) => {
     const movieIds: MovieIdsQueryBody = await request.json();
 
-    movieIds.movieIds = movieIds.movieIds.slice(0, 30);
+    movieIds.movieIds = movieIds.movieIds.slice(0, Number(PUBLIC_MOVIE_LIMIT));
 
     movieIds.movieIds.forEach(verifyInput);
 

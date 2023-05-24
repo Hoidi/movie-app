@@ -1,3 +1,4 @@
+import { PUBLIC_MOVIE_LIMIT } from '$env/static/public';
 import { error, json } from '@sveltejs/kit';
 import { searchMovie } from '../../../api/tmdb.server';
 import {
@@ -11,7 +12,7 @@ import type { RequestHandler } from './$types';
 export const POST = (async ({ request }) => {
     const searchMovieQueryBody: SearchMovieQueryBody = (
         await request.json()
-    ).slice(0, 30);
+    ).slice(0, Number(PUBLIC_MOVIE_LIMIT));
 
     searchMovieQueryBody.forEach(verifyInput);
 
