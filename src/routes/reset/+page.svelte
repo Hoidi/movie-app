@@ -1,8 +1,11 @@
 <script lang="ts">
     import { Button, Toast } from 'flowbite-svelte';
-    import { diaryStore } from '../../store/diary';
-    import { movieStore } from '../../store/movies';
-    import { personStore } from '../../store/people';
+    import {
+        diaryStore,
+        groupedFilteringStore,
+        movieStore,
+        personStore,
+    } from '../../store';
 
     let showToast = false;
 
@@ -16,6 +19,7 @@
         movieStore.reset();
         diaryStore.reset();
         personStore.reset();
+        groupedFilteringStore.reset();
         hideToast();
     }
 </script>

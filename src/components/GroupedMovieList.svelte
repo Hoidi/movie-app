@@ -28,13 +28,14 @@
         totalRatingDiff,
         totalRunningTime,
     } from '../sorting';
+    import { groupedFilteringStore } from '../store';
     import type { Groups, Movie } from '../types';
 
     export let title: string = '';
     export let groups: Groups = [];
 
     // move this to each page and just let this element render the list given?
-    export let sortingOrder: GroupSortingOrder;
+    let sortingOrder = $groupedFilteringStore.sortingOrder;
 
     let movieSortingFunction: (m: Movie[]) => number;
 
@@ -42,7 +43,7 @@
         let groupSortingFunction: (m: Groups) => Groups;
 
         switch (sortingOrder) {
-            case GroupSortingOrder.averageUserrating:
+            case GroupSortingOrder.averageUserRating:
                 groupSortingFunction = sortForAverageUserRating;
                 movieSortingFunction = averageUserRating;
                 break;
