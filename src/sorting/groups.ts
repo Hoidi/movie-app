@@ -12,7 +12,7 @@ import {
 } from './movies';
 
 export enum GroupSortingOrder {
-    averageUserrating,
+    averageUserRating,
     averageRatingDiff,
     totalRatingDiff,
     numberOfWatches,
@@ -24,7 +24,7 @@ export enum GroupSortingOrder {
 }
 
 export const groupSortingOrders = [
-    { value: GroupSortingOrder.averageUserrating, name: 'Average rating' },
+    { value: GroupSortingOrder.averageUserRating, name: 'Average rating' },
     {
         value: GroupSortingOrder.averageRatingDiff,
         name: 'Average rating difference',
