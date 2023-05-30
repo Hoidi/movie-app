@@ -1,7 +1,7 @@
 <script lang="ts">
-    import { Select, Toggle } from 'flowbite-svelte';
+    import { Alert, Select, Toggle } from 'flowbite-svelte';
     import { groupSortingOrders } from '../../sorting';
-    import { groupedFilteringStore } from '../../store';
+    import { groupedFilteringStore, movieStore } from '../../store';
 </script>
 
 <div class="content">
@@ -21,7 +21,16 @@
     </div>
 
     <div class="list">
-        <slot />
+        {#if Object.values($movieStore).length === 0}
+            <div style="margin-top: 50px;">
+                <Alert color="yellow">
+                    <span class="font-medium">No diary available. </span> Upload
+                    your diary <a href="/upload">here</a> and try again.
+                </Alert>
+            </div>
+        {:else}
+            <slot />
+        {/if}
     </div>
 </div>
 

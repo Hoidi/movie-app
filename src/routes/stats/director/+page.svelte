@@ -1,5 +1,4 @@
 <script lang="ts">
-    import { Alert } from 'flowbite-svelte';
     import GroupedMovieList from '../../../components/GroupedMovieList.svelte';
     import { groupedFilteringStore, movieStore } from '../../../store';
     import type { Groups, Movie } from '../../../types';
@@ -48,15 +47,6 @@
     );
 </script>
 
-{#if Object.values($movieStore).length === 0}
-    <div style="margin-top: 50px;">
-        <Alert color="yellow">
-            <span class="font-medium">No diary available. </span> Upload your
-            diary <a href="/upload">here</a> and try again.
-        </Alert>
-    </div>
-{:else}
-    {#key $groupedFilteringStore.sortingOrder}
-        <GroupedMovieList title="Director" {groups} />
-    {/key}
-{/if}
+{#key $groupedFilteringStore.sortingOrder}
+    <GroupedMovieList title="Director" {groups} />
+{/key}
