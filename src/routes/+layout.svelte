@@ -44,7 +44,7 @@
                     <NavLi id="nav-menu1" class="cursor-pointer"
                         ><Chevron aligned>Stats</Chevron></NavLi
                     >
-                    <NavLi href="/grid" active={path === '/grid'}>Grid</NavLi>
+                    <NavLi href="/list" active={path === '/list'}>List</NavLi>
                     <Dropdown triggeredBy="#nav-menu1" class="w-44 z-20">
                         <DropdownItem
                             ><NavLi
