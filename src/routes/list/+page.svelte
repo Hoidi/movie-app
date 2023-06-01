@@ -12,5 +12,15 @@
         </Alert>
     </div>
 {:else}
-    <MovieList movies={Object.values($movieStore)} />
+    <MovieList
+        movies={Object.values($movieStore).sort((movieA, movieB) => {
+            if (movieA.title < movieB.title) {
+                return -1;
+            }
+            if (movieA.title > movieB.title) {
+                return 1;
+            }
+            return 0;
+        })}
+    />
 {/if}
