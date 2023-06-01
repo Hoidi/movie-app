@@ -65,3 +65,13 @@ export const averageNumber = (numbers: number[]): number => {
         return (size * average + number) / (size + 1);
     }, 0);
 };
+
+export const alphabetically = (movieA: Movie, movieB: Movie): number => {
+    if (movieA.title < movieB.title) {
+        return -1;
+    }
+    if (movieA.title > movieB.title) {
+        return 1;
+    }
+    return 0;
+};

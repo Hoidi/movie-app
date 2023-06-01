@@ -1,5 +1,6 @@
 <script lang="ts">
     import {
+        Popover,
         Table,
         TableBody,
         TableBodyCell,
@@ -9,6 +10,7 @@
     } from 'flowbite-svelte';
     import {
         GroupSortingOrder,
+        alphabetically,
         averageBudget,
         averageRatingDiff,
         averageReleaseYear,
@@ -107,7 +109,20 @@
             <TableBodyRow>
                 <TableBodyCell>{index + 1}</TableBodyCell>
                 <TableBodyCell>{group.groupsTitle}</TableBodyCell>
-                <TableBodyCell>{group.moviesInGroup.length}</TableBodyCell>
+
+                <TableBodyCell
+                    ><div id={group.groupsTitle.replaceAll(/\W/g, '')}>
+                        {group.moviesInGroup.length}
+                    </div>
+                    <Popover
+                        triggeredBy="#{group.groupsTitle.replaceAll(/\W/g, '')}"
+                        >{#each group.moviesInGroup.sort(alphabetically) as movie}
+                            {movie.title}
+                            <br />
+                        {/each}</Popover
+                    ></TableBodyCell
+                >
+
                 <TableBodyCell>
                     <SortingValue
                         value={groupSortingItem.displayFunction(
