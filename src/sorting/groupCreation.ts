@@ -1,6 +1,6 @@
 import type { Groups, Movie } from '../types';
 
-const addGroupToList = (
+export const addGroupToList = (
     groupMap: Map<string, Movie[]>,
     filterOutGroupsOfOne: boolean
 ): Groups => {
