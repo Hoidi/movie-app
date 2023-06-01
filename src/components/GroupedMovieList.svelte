@@ -14,6 +14,7 @@
         averageReleaseYear,
         averageRunningTime,
         averageUserRating,
+        groupSortingOrders,
         numberOfWatches,
         sortForAverageBudget,
         sortForAverageRatingDiff,
@@ -30,12 +31,16 @@
     } from '../sorting';
     import { groupedFilteringStore } from '../store';
     import type { Groups, Movie } from '../types';
+    import SortingValue from './SortingValue.svelte';
 
     export let title: string = '';
     export let groups: Groups = [];
 
     // move this to each page and just let this element render the list given?
     let sortingOrder = $groupedFilteringStore.sortingOrder;
+    $: groupSortingItem =
+        groupSortingOrders.find((sorting) => sorting.value === sortingOrder) ??
+        groupSortingOrders[0];
 
     let movieSortingFunction: (m: Movie[]) => number;
 
@@ -104,14 +109,12 @@
                 <TableBodyCell>{group.groupsTitle}</TableBodyCell>
                 <TableBodyCell>{group.moviesInGroup.length}</TableBodyCell>
                 <TableBodyCell>
-                    {#if sortingOrder != GroupSortingOrder.averageRunningTime && sortingOrder != GroupSortingOrder.totalRunningTime}
-                        {movieSortingFunction(group.moviesInGroup)}
-                    {:else}
-                        {new Date(movieSortingFunction(group.moviesInGroup))
-                            .toTimeString()
-                            .split(' ')[0]
-                            .slice(0, 5)}
-                    {/if}
+                    <SortingValue
+                        value={groupSortingItem.displayFunction(
+                            movieSortingFunction(group.moviesInGroup)
+                        )}
+                        component={groupSortingItem.component}
+                    />
                 </TableBodyCell>
             </TableBodyRow>
         {/each}

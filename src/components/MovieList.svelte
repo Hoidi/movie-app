@@ -1,5 +1,6 @@
 <script lang="ts">
     import {
+        P,
         Rating,
         Table,
         TableBody,
@@ -38,12 +39,12 @@
                 </TableBodyCell>
                 <TableBodyCell
                     ><Rating total={5} rating={movie.diaryEntries.movie.rating}>
-                        <p
+                        <P
                             slot="text"
                             class="ml-2 text-sm font-medium text-gray-500 dark:text-gray-400"
                         >
                             {movie.diaryEntries.movie.rating.toFixed(1)} out of 5
-                        </p>
+                        </P>
                     </Rating></TableBodyCell
                 >
                 <TableBodyCell>{movie.genres.join(', ')}</TableBodyCell>

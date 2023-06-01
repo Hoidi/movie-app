@@ -9,7 +9,7 @@ export const averageUserRating = (movies: Movie[]): number => {
 export const totalRatingDiff = (movies: Movie[]): number => {
     return totalNumber(
         movies.map((movie) =>
-            Math.abs(movie.voteAverage - movie.diaryEntries.movie.rating)
+            Math.abs(movie.voteAverage / 2 - movie.diaryEntries.movie.rating)
         )
     );
 };
@@ -17,7 +17,7 @@ export const totalRatingDiff = (movies: Movie[]): number => {
 export const averageRatingDiff = (movies: Movie[]): number => {
     return averageNumber(
         movies.map((movie) =>
-            Math.abs(movie.voteAverage - movie.diaryEntries.movie.rating)
+            Math.abs(movie.voteAverage / 2 - movie.diaryEntries.movie.rating)
         )
     );
 };
