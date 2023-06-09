@@ -1,5 +1,7 @@
 <script lang="ts">
+    import { PUBLIC_MOVIE_URL } from '$env/static/public';
     import {
+        A,
         Popover,
         Table,
         TableBody,
@@ -46,55 +48,50 @@
 
     let movieSortingFunction: (m: Movie[]) => number;
 
-    const sort = () => {
-        let groupSortingFunction: (m: Groups) => Groups;
+    let groupSortingFunction: (m: Groups) => Groups;
+    switch (sortingOrder) {
+        case GroupSortingOrder.averageUserRating:
+            groupSortingFunction = sortForAverageUserRating;
+            movieSortingFunction = averageUserRating;
+            break;
+        case GroupSortingOrder.averageRatingDiff:
+            groupSortingFunction = sortForAverageRatingDiff;
+            movieSortingFunction = averageRatingDiff;
+            break;
+        case GroupSortingOrder.totalRatingDiff:
+            groupSortingFunction = sortForTotalRatingDiff;
+            movieSortingFunction = totalRatingDiff;
+            break;
+        case GroupSortingOrder.numberOfWatches:
+            groupSortingFunction = sortForNumberOfWatches;
+            movieSortingFunction = numberOfWatches;
+            break;
+        case GroupSortingOrder.averageRunningTime:
+            groupSortingFunction = sortForAverageRunningTime;
+            movieSortingFunction = averageRunningTime;
+            break;
+        case GroupSortingOrder.totalRunningTime:
+            groupSortingFunction = sortForTotalRunningTime;
+            movieSortingFunction = totalRunningTime;
+            break;
+        case GroupSortingOrder.averageReleaseYear:
+            groupSortingFunction = sortForAverageReleaseYear;
+            movieSortingFunction = averageReleaseYear;
+            break;
+        case GroupSortingOrder.averageBudget:
+            groupSortingFunction = sortForAverageBudget;
+            movieSortingFunction = averageBudget;
+            break;
+        case GroupSortingOrder.totalBudget:
+            groupSortingFunction = sortForTotalBudget;
+            movieSortingFunction = totalBudget;
+            break;
+        default:
+            groupSortingFunction = sortForAverageUserRating;
+            movieSortingFunction = averageUserRating;
+    }
 
-        switch (sortingOrder) {
-            case GroupSortingOrder.averageUserRating:
-                groupSortingFunction = sortForAverageUserRating;
-                movieSortingFunction = averageUserRating;
-                break;
-            case GroupSortingOrder.averageRatingDiff:
-                groupSortingFunction = sortForAverageRatingDiff;
-                movieSortingFunction = averageRatingDiff;
-                break;
-            case GroupSortingOrder.totalRatingDiff:
-                groupSortingFunction = sortForTotalRatingDiff;
-                movieSortingFunction = totalRatingDiff;
-                break;
-            case GroupSortingOrder.numberOfWatches:
-                groupSortingFunction = sortForNumberOfWatches;
-                movieSortingFunction = numberOfWatches;
-                break;
-            case GroupSortingOrder.averageRunningTime:
-                groupSortingFunction = sortForAverageRunningTime;
-                movieSortingFunction = averageRunningTime;
-                break;
-            case GroupSortingOrder.totalRunningTime:
-                groupSortingFunction = sortForTotalRunningTime;
-                movieSortingFunction = totalRunningTime;
-                break;
-            case GroupSortingOrder.averageReleaseYear:
-                groupSortingFunction = sortForAverageReleaseYear;
-                movieSortingFunction = averageReleaseYear;
-                break;
-            case GroupSortingOrder.averageBudget:
-                groupSortingFunction = sortForAverageBudget;
-                movieSortingFunction = averageBudget;
-                break;
-            case GroupSortingOrder.totalBudget:
-                groupSortingFunction = sortForTotalBudget;
-                movieSortingFunction = totalBudget;
-                break;
-            default:
-                groupSortingFunction = sortForAverageUserRating;
-                movieSortingFunction = averageUserRating;
-        }
-
-        groups = groupSortingFunction(groups);
-    };
-
-    sort();
+    groups = groupSortingFunction(groups);
 </script>
 
 <Table hoverable>
@@ -117,7 +114,12 @@
                     <Popover
                         triggeredBy="#{group.groupsTitle.replaceAll(/\W/g, '')}"
                         >{#each group.moviesInGroup.sort(alphabetically) as movie}
-                            {movie.title}
+                            <A
+                                target="_blank"
+                                href={PUBLIC_MOVIE_URL + movie.id}
+                                >{movie.title}</A
+                            >
+
                             <br />
                         {/each}</Popover
                     ></TableBodyCell
