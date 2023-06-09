@@ -11,6 +11,7 @@
             >I've made this website in order to see some neat statistics from my
             Letterboxd history. You can use it by downloading your Letterboxd
             history <A
+                target="_blank"
                 href="https://letterboxd.com/settings/data/"
                 class="hover:underline">here</A
             > and upload it here <A href="/upload" class="hover:underline"

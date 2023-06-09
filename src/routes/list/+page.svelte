@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { Alert } from 'flowbite-svelte';
+    import { A, Alert } from 'flowbite-svelte';
     import MovieList from '../../components/MovieList.svelte';
     import { alphabetically } from '../../sorting';
     import { movieStore } from '../../store/movies';
@@ -9,7 +9,7 @@
     <div style="margin-top: 50px;">
         <Alert color="yellow">
             <span class="font-medium">No diary available. </span> Upload your
-            diary <a href="/upload">here</a> and try again.
+            diary <A href="/upload">here</A> and try again.
         </Alert>
     </div>
 {:else}
