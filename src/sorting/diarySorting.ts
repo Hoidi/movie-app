@@ -2,15 +2,44 @@ import type { Groups, Movie } from '../types';
 import { addGroupToList } from './groupCreation';
 
 const getYear = (date: Date): string => {
+    date = new Date(date);
     return String(date.getFullYear());
 };
 
 const getYearMonth = (date: Date): string => {
-    return date.getFullYear() + '-' + date.getMonth();
+    date = new Date(date);
+    return date.getFullYear() + '-' + getMonthWithLeading0(date);
 };
 
 const getYearMonthDay = (date: Date): string => {
-    return date.getFullYear() + '-' + date.getMonth() + '-' + date.getDay();
+    date = new Date(date);
+    return (
+        date.getFullYear() +
+        '-' +
+        getMonthWithLeading0(date) +
+        '-' +
+        getDayWithLeading0(date)
+    );
+};
+
+const getMonthWithLeading0 = (date: Date): string => {
+    const month = date.getMonth() + 1; // January is month 0, so we add 1
+
+    if (month < 10) {
+        return `0${month}`;
+    }
+
+    return String(month);
+};
+
+const getDayWithLeading0 = (date: Date): string => {
+    const day = date.getDate();
+
+    if (day < 10) {
+        return `0${day}`;
+    }
+
+    return String(day);
 };
 
 export const createTimePeriodGroups = (

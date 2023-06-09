@@ -43,9 +43,7 @@
                     <NavLi href="/" active={path === '/'}>Home</NavLi>
                     <NavLi id="nav-menu1" class="cursor-pointer"
                         ><Chevron aligned>Stats</Chevron></NavLi
-                    >
-                    <NavLi href="/list" active={path === '/list'}>List</NavLi>
-                    <Dropdown triggeredBy="#nav-menu1" class="w-44 z-20">
+                    ><Dropdown triggeredBy="#nav-menu1" class="w-44 z-20">
                         <DropdownItem
                             ><NavLi
                                 href="/stats/general"
@@ -80,6 +78,10 @@
                             ></DropdownItem
                         >
                     </Dropdown>
+                    <NavLi href="/diary" active={path === '/diary'}>Diary</NavLi
+                    >
+                    <NavLi href="/list" active={path === '/list'}>List</NavLi>
+
                     <NavLi href="/upload" active={path === '/upload'}
                         >Upload</NavLi
                     >
