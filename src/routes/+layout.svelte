@@ -20,22 +20,28 @@
 </script>
 
 <div class="layout">
-    <div class="relative px-8">
+    <div class="relative">
         <Navbar
             navClass="px-2 sm:px-4 py-2.5 absolute w-full z-20 top-0 left-0 border-b sticky"
             let:hidden
             let:toggle
         >
             <NavBrand href="/">
-                <img
-                    src="https://flowbite.com/docs/images/logo.svg"
-                    class="mr-3 h-6 sm:h-9"
-                    alt="Flowbite Logo"
-                />
+                {#key localStorage.getItem('color-theme')}
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        style="height: 55px; width: 70px; margin-right: 20px"
+                        ><path
+                            d="M 42.5 42.5 l 7.5 0 l 0 -30 l -7.5 -0 Z M 20 42.5 l 7.5 0 l 0 -7.5 l -7.5 -0 Z M 31.25 42.5 l 7.5 0 l 0 -17.5 l -7.5 -0 Z M 4 55 c -2.7 -0 -4 -1.3 -4 -4 l 0 -47 c 0 -2.7 1.3 -4 4 -4 l 62 0 c 2.7 0 4 1.3 4 4 l -0 47 c -0 2.7 -1.3 4 -4 4 Z M 5 50 l 5 0 l 0 -5 l -5 -0 Z M 5 40 l 5 0 l 0 -5 l -5 -0 Z M 5 30 l 5 0 l 0 -5 l -5 -0 Z M 5 20 l 5 0 l 0 -5 l -5 -0 Z M 5 10 l 5 0 l 0 -5 l -5 -0 Z M 60 50 l 5 0 l 0 -5 l -5 -0 Z M 60 40 l 5 0 l 0 -5 l -5 -0 Z M 60 30 l 5 0 l 0 -5 l -5 -0 Z M 60 20 l 5 0 l 0 -5 l -5 -0 Z M 60 10 l 5 0 l 0 -5 l -5 -0 Z M 60 10"
+                            fill="#0e7bf9"
+                        />
+                    </svg>
+                {/key}
                 <span
                     class="self-center whitespace-nowrap text-xl font-semibold dark:text-white"
-                    >Movie app</span
                 >
+                    Movie app
+                </span>
             </NavBrand>
             <NavHamburger on:click={toggle} />
             <div class="flex flex-row justify-between">
